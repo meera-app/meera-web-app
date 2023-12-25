@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/meera/static/css/main.f855e6bc.css",
+    "main.js": "/meera/static/js/main.67fdb2cc.js",
+    "static/js/787.dd6d63fc.chunk.js": "/meera/static/js/787.dd6d63fc.chunk.js",
+    "index.html": "/meera/index.html",
+    "main.f855e6bc.css.map": "/meera/static/css/main.f855e6bc.css.map",
+    "main.67fdb2cc.js.map": "/meera/static/js/main.67fdb2cc.js.map",
+    "787.dd6d63fc.chunk.js.map": "/meera/static/js/787.dd6d63fc.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f855e6bc.css",
+    "static/js/main.67fdb2cc.js"
+  ]
+}
