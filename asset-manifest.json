@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/meera-web-app/static/css/main.f855e6bc.css",
-    "main.js": "/meera-web-app/static/js/main.c23eb77d.js",
+    "main.js": "/meera-web-app/static/js/main.265925ca.js",
     "static/js/787.dd6d63fc.chunk.js": "/meera-web-app/static/js/787.dd6d63fc.chunk.js",
     "index.html": "/meera-web-app/index.html",
     "main.f855e6bc.css.map": "/meera-web-app/static/css/main.f855e6bc.css.map",
-    "main.c23eb77d.js.map": "/meera-web-app/static/js/main.c23eb77d.js.map",
+    "main.265925ca.js.map": "/meera-web-app/static/js/main.265925ca.js.map",
     "787.dd6d63fc.chunk.js.map": "/meera-web-app/static/js/787.dd6d63fc.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.f855e6bc.css",
-    "static/js/main.c23eb77d.js"
+    "static/js/main.265925ca.js"
   ]
 }
