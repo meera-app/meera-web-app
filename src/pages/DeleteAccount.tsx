@@ -1,5 +1,8 @@
-import { Box, Button, Container, FormControlLabel, Paper, Radio, TextField, Typography, styled, useTheme } from "@mui/material";
+import { Backdrop, Button, CircularProgress, Container, FormControlLabel, Paper, Radio, TextField, Typography, styled, useTheme } from "@mui/material";
+import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
+import { useUserContext } from "../util/Auth";
+import { auth } from "../firebase/firebase";
 
 
 const RadioText = styled(Typography)(({ theme }) => ({
@@ -14,6 +17,41 @@ function DeleteAccount() {
     const [selectedIndex, setSelectedIndex] = useState(-1);
     const [reason, setReason] = useState("");
     const [buttonEnabled, setButtonEnabled] = useState(false);
+    const [isLoading, setLoading] = useState(false);
+    const { enqueueSnackbar } = useSnackbar();
+    const userType = useUserContext();
+
+    const handleDeleteAccount = async () => {
+        setLoading(true);
+        try {
+            const userId = { userId: userType?.user?.uid };
+            console.log(userId);
+            const response = await fetch('https://deleteuseraccount-oqlmp3mpcq-uc.a.run.app', {
+                method: 'POST',
+                body: JSON.stringify(userId),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8'
+                }
+            }).then((response) => response.json());
+            console.log(response);
+            await auth.signOut();
+            enqueueSnackbar(`${response.message}`, { variant: "success" });
+            //enqueueSnackbar(`${response.message}`, { variant: "success" });
+        } catch (error) {
+            console.log(error);
+            enqueueSnackbar(`${error}`, { variant: "error" });
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const hadnleReasonSelect = (index: number) => {
+        if (index === 5) {
+            setReason("");
+        }
+        setSelectedIndex(index);
+
+    };
 
     useEffect(() => {
         if (selectedIndex === 5) {
@@ -35,32 +73,32 @@ function DeleteAccount() {
 
                 <FormControlLabel
                     sx={{ display: "block" }}
-                    control={<Radio checked={selectedIndex === 0} onChange={() => { setSelectedIndex(0) }} />}
+                    control={<Radio checked={selectedIndex === 0} onChange={() => { hadnleReasonSelect(0) }} />}
                     label={<RadioText variant="body1">I don't want to use Meera app anymore.</RadioText>}
                 />
                 <FormControlLabel
                     sx={{ display: "block" }}
-                    control={<Radio checked={selectedIndex === 1} onChange={() => { setSelectedIndex(1) }} />}
+                    control={<Radio checked={selectedIndex === 1} onChange={() => { hadnleReasonSelect(1) }} />}
                     label={<RadioText variant="body1">I'm using a different account.</RadioText>}
                 />
                 <FormControlLabel
                     sx={{ display: "block" }}
-                    control={<Radio checked={selectedIndex === 2} onChange={() => { setSelectedIndex(2) }} />}
+                    control={<Radio checked={selectedIndex === 2} onChange={() => { hadnleReasonSelect(2) }} />}
                     label={<RadioText variant="body1">I've found a better app.</RadioText>}
                 />
                 <FormControlLabel
                     sx={{ display: "block" }}
-                    control={<Radio checked={selectedIndex === 3} onChange={() => { setSelectedIndex(3) }} />}
+                    control={<Radio checked={selectedIndex === 3} onChange={() => { hadnleReasonSelect(3) }} />}
                     label={<RadioText variant="body1">I'm worried about my privacy.</RadioText>}
                 />
                 <FormControlLabel
                     sx={{ display: "block" }}
-                    control={<Radio checked={selectedIndex === 4} onChange={() => { setSelectedIndex(4) }} />}
+                    control={<Radio checked={selectedIndex === 4} onChange={() => { hadnleReasonSelect(4) }} />}
                     label={<RadioText variant="body1">The app is not working properly.</RadioText>}
                 />
                 <FormControlLabel
                     sx={{ display: "block" }}
-                    control={<Radio checked={selectedIndex === 5} onChange={() => { setSelectedIndex(5) }} />}
+                    control={<Radio checked={selectedIndex === 5} onChange={() => { hadnleReasonSelect(5) }} />}
                     label={<RadioText variant="body1">Other</RadioText>}
                 />
                 {(selectedIndex === 5) && <TextField
@@ -70,6 +108,9 @@ function DeleteAccount() {
                     label="Please specify your reason"
                     variant="outlined"
                     sx={{ mb: 2 }}
+                    onChange={(event) => {
+                        setReason(event.target.value);
+                    }}
                 />}
                 <TextField
                     required
@@ -85,11 +126,16 @@ function DeleteAccount() {
                     variant="contained"
                     sx={{ mt: 3 }}
                     disabled={!buttonEnabled}
+                    onClick={handleDeleteAccount}
                 >
                     Delete my account now
                 </Button>
             </Paper>
+            <Backdrop open={isLoading} >
+                <CircularProgress />
+            </Backdrop>
         </Container>
+
     );
 }
 

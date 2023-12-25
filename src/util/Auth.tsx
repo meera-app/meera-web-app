@@ -18,7 +18,6 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     useEffect(() => {
         auth.onAuthStateChanged((user) => {
-            // console.log("AuthProvider: currentUser = " + user);
             setCurrentUser(user)
             setPending(false)
         });
